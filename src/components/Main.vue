@@ -1,7 +1,7 @@
 <template>
   <main class="container main-container">
-    <div class="progress" v-if="postsState.loading">
-      <div class="indeterminate"></div>
+    <div class="progress blue lighten-3" v-if="postsState.loading">
+      <div class="indeterminate orange"></div>
     </div>
     <div class="card red  darken-1" v-if="postsState.error">
       <div class="card-content white-text">
@@ -14,16 +14,28 @@
         <div class="card-title">
           <blockquote>{{ post.title }}</blockquote>
         </div>
-        <div class="card-image" v-if="!post.is_video">
+        <div class="card-image" v-if="!post.is_video && isImage(post.url)">
           <img class="responsive-image" :src="post.url" />
         </div>
+        <div class="center">
+          <video class="responsive-video" controls v-if="post.is_video">
+            <source :src="post.secure_media.reddit_video.fallback_url" />
+          </video>
+        </div>
+
         <div class="card-stacked">
-          <div class="card-action">
+          <div class="card-action ">
+            <a
+              class="lowercase truncate"
+              :href="post.url"
+              v-if="!post.is_video && !isImage(post.url)"
+              >{{ post.url }}</a
+            >
             <a
               target="_blank"
               class="lowercase truncate blue-text"
               :href="`https://reddit.com${post.permalink}`"
-              >https://reddit.com{{ post.permalink }}</a
+              >read comments</a
             >
           </div>
         </div>
@@ -38,21 +50,17 @@ import usePosts from "@/hooks/usePosts.js";
 export default {
   name: "Main",
   setup() {
-    const postsState = usePosts("all");
+    let sr = "javascript";
+    const postsState = usePosts(sr);
     const posts = computed(() => postsState.data.map((child) => child.data));
 
-    // const isImage = computed(() =>
-    //   this.url.match(/bmp|webp|png|jpg|jpeg|gif$/)
-    // );
-    //   const isVideo = computed(
-    //   () => (post.secure_media && post.secure_media.reddit_video)
-    //     || post.url.match(/mp4|gifv|mkv|mov|webm$/),
-    // );
+    function isImage(url) {
+      return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif$/g);
+    }
     return {
       posts,
       postsState,
-
-      // isVideo
+      isImage,
     };
   },
 };
@@ -73,5 +81,7 @@ export default {
 }
 .card-title blockquote {
   margin: 0;
+  font-weight: 500;
+  font-size: 20px;
 }
 </style>
