@@ -11,6 +11,22 @@
 
     <div v-for="post in posts" :key="post.id">
       <div class="card post-card">
+        <div class="card-meta">
+          <a
+            target="_blank"
+            :href="`https://reddit.com/${post.subreddit_name_prefixed}`"
+            >{{ post.subreddit_name_prefixed }}</a
+          >
+          <span class="grey-text text-lighten-1 card-meta-author"
+            >Posted by
+            <a
+              target="_blank"
+              class="grey-text"
+              :href="`https://reddit.com/user/${post.author}`"
+              >u/{{ post.author }}</a
+            ></span
+          >
+        </div>
         <div class="card-title">
           <blockquote>{{ post.title }}</blockquote>
         </div>
@@ -26,6 +42,7 @@
         <div class="card-stacked">
           <div class="card-action ">
             <a
+              target="_blank"
               class="lowercase truncate"
               :href="post.url"
               v-if="!post.is_video && !isImage(post.url)"
@@ -37,6 +54,16 @@
               :href="`https://reddit.com${post.permalink}`"
               >read comments</a
             >
+          </div>
+          <div class="card-votes">
+            <div class="upvotes">
+              <span class="upvotes-number">{{ post.ups }}</span>
+              <i class="material-icons">thumb_up</i>
+            </div>
+            <div class="downvotes">
+              <span class="upvotes-number">{{ post.downs }}</span>
+              <i class="material-icons">thumb_down</i>
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +77,7 @@ import usePosts from "@/hooks/usePosts.js";
 export default {
   name: "Main",
   setup() {
-    let sr = "javascript";
+    let sr = "all";
     const postsState = usePosts(sr);
     const posts = computed(() => postsState.data.map((child) => child.data));
 
@@ -83,5 +110,23 @@ export default {
   margin: 0;
   font-weight: 500;
   font-size: 20px;
+}
+.card-meta {
+  margin-left: 15px;
+}
+.card-meta-author {
+  margin-left: 5px;
+}
+.card-votes {
+  display: flex;
+  margin-left: 10px;
+}
+.upvotes,
+.downvotes {
+  margin: 0 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  /* justify-content: center; */
+  align-items: center;
 }
 </style>

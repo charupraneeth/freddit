@@ -14,6 +14,7 @@
           type="search"
           required
         />
+
         <label class="label-icon" for="search"
           ><i class="material-icons deep-orange-text text-lighten-2"
             >search</i
