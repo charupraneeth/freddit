@@ -9,6 +9,7 @@
       </div>
       <div class="input-field col s7">
         <input
+          v-model="SubredditName"
           id="search"
           class="grey darken-3 white-text"
           type="search"
@@ -30,12 +31,21 @@
         >
       </div>
     </div>
-  </nav></template
->
+  </nav>
+</template>
 
 <script>
+// import { ref } from "vue";
+import SubredditName from "@/store/state";
 export default {
   name: "Navbar",
+  setup() {
+    // let name = ref("hello");
+    // SubredditName.value = name.value;
+    return {
+      SubredditName,
+    };
+  },
 };
 </script>
 
