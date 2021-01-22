@@ -5,7 +5,6 @@
 </template>
 
 <script>
-//https://www.reddit.com/search.json?q=aww&type=sr
 import Subreddit from "./Subreddit.vue";
 // import SubredditName from "@/store/state";
 export default {

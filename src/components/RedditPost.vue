@@ -75,7 +75,7 @@ export default {
 
 <style>
 .post-card {
-  margin: 15px auto;
+  margin: 1rem auto !important;
   max-width: 500px;
 }
 .lowercase {

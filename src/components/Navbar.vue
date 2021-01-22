@@ -1,19 +1,25 @@
 <template>
-  <nav class="container  transparent">
+  <nav class="container deep-orange lighten-2">
     <div class="nav-wrapper">
       <form>
         <div class="input-field">
           <input
+            v-model="searchTerm"
             ref="autocomplete"
-            class="autocomplete"
-            id="autocomplete-input"
+            id="search"
             type="search"
             required
           />
-          <label class="label-icon" for="search"
-            ><i class="material-icons">search</i></label
+          <label class="label-icon search-icon" for="search"
+            ><i class="material-icons  blue-grey-text text-darken-4"
+              >search</i
+            ></label
           >
-          <i class="material-icons">close</i>
+          <i
+            class="material-icons  blue-grey-text text-darken-4"
+            @click="searchTerm = ''"
+            >close</i
+          >
         </div>
       </form>
     </div>
@@ -21,27 +27,57 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+import SubredditName from "@/store/state";
+import API from "@/lib/API";
 import M from "materialize-css";
 export default {
   name: "Navbar",
   setup() {
     const autocomplete = ref(null);
+    const searchTerm = ref("");
     onMounted(() => {
+      async function getSubreddits() {
+        if (searchTerm.value.length < 3) return;
+        const response = await API.getSubreddits({
+          q: searchTerm.value,
+          type: "sr",
+        });
+        const searchTerms = response.data.children.reduce((acc, child) => {
+          acc[child.data.display_name] = null;
+          return acc;
+        }, {});
+        instance.updateData(searchTerms);
+        instance.open();
+      }
       const instance = M.Autocomplete.init(autocomplete.value, {
-        data: {
-          Apple: null,
-          Microsoft: null,
-          Google: "https://placehold.it/250x250",
+        data: {},
+        onAutocomplete: (term) => {
+          SubredditName.value = term;
         },
       });
-      instance.open();
+      let debounceTimer;
+      watch(
+        () => searchTerm.value,
+        () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(async () => {
+            getSubreddits();
+          }, 500);
+        }
+      );
     });
     return {
       autocomplete,
+      searchTerm,
     };
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.search-icon {
+  padding: 0 20px;
+  transform: none !important;
+}
+</style>

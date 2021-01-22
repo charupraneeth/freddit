@@ -1,12 +1,12 @@
 import { reactive, watch } from "vue";
 import API from "@/lib/API";
 
+const postState = reactive({
+  loading: true,
+  error: "",
+  data: [],
+});
 export default function usePosts(subreddit) {
-  const postState = reactive({
-    loading: true,
-    error: "",
-    data: [],
-  });
   async function loadData() {
     try {
       const response = await API.getPosts(subreddit.value);
