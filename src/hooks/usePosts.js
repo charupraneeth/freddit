@@ -9,10 +9,12 @@ const postState = reactive({
 export default function usePosts(subreddit) {
   async function loadData() {
     try {
+      postState.loading = true;
+      postState.error = "";
+      postState.data = [];
+
       const response = await API.getPosts(subreddit.value);
       postState.data = response.data.children;
-      postState.loading = false;
-      postState.error = "";
     } catch (error) {
       postState.error = error.message || "unable to fetch posts";
       // console.log(error);

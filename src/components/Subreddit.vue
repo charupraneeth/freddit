@@ -1,5 +1,5 @@
 <template>
-  <div class="progress blue lighten-3" v-if="postsState.loading">
+  <div class="progress blue lighten-3" v-show="postsState.loading">
     <div class="indeterminate orange"></div>
   </div>
   <div class="card red  darken-1" v-if="postsState.error">
