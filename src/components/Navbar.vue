@@ -10,11 +10,10 @@
             type="search"
             required
           />
-          <label class="label-icon search-icon" for="search"
-            ><i class="material-icons  blue-grey-text text-darken-4"
-              >search</i
-            ></label
-          >
+          <label class="label-icon search-icon flex" for="search"
+            ><i class="material-icons  blue-grey-text text-darken-4">search</i>
+            <span class="blue-grey-text text-darken-4">r/</span>
+          </label>
           <i
             class="material-icons  blue-grey-text text-darken-4"
             @click="searchTerm = ''"
@@ -79,5 +78,12 @@ export default {
 .search-icon {
   padding: 0 20px;
   transform: none !important;
+}
+.flex {
+  display: flex;
+}
+.flex span {
+  display: inline-block;
+  margin-left: 3px;
 }
 </style>
