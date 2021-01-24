@@ -1,7 +1,7 @@
 <template>
-  <nav class="container deep-orange lighten-2">
+  <nav class=" deep-orange lighten-2">
     <div class="nav-wrapper">
-      <form>
+      <form @submit.prevent="searchSubreddit">
         <div class="input-field">
           <input
             v-model="searchTerm"
@@ -26,8 +26,9 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
-import SubredditName from "@/store/state";
+// import SubredditName from "@/store/state";
 import API from "@/lib/API";
 import M from "materialize-css";
 export default {
@@ -35,6 +36,18 @@ export default {
   setup() {
     const autocomplete = ref(null);
     const searchTerm = ref("");
+    const router = useRouter();
+    let instance;
+    function searchSubreddit() {
+      router.push({
+        name: "SearchSubreddit",
+        params: {
+          slug: searchTerm.value,
+        },
+      });
+      instance.close();
+    }
+
     onMounted(() => {
       async function getSubreddits() {
         if (searchTerm.value.length < 3) return;
@@ -49,10 +62,12 @@ export default {
         instance.updateData(searchTerms);
         instance.open();
       }
-      const instance = M.Autocomplete.init(autocomplete.value, {
+      instance = M.Autocomplete.init(autocomplete.value, {
         data: {},
-        onAutocomplete: (term) => {
-          SubredditName.value = term;
+        onAutocomplete: () => {
+          // SubredditName.value = term;
+          searchSubreddit();
+          instance.close();
         },
       });
       let debounceTimer;
@@ -62,13 +77,15 @@ export default {
           clearTimeout(debounceTimer);
           debounceTimer = setTimeout(async () => {
             getSubreddits();
-          }, 500);
+          }, 100);
         }
       );
     });
+
     return {
       autocomplete,
       searchTerm,
+      searchSubreddit,
     };
   },
 };

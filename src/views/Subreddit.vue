@@ -15,15 +15,23 @@
 <script>
 import SubredditName from "@/store/state";
 import RedditPost from "@/components/RedditPost.vue";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import usePosts from "@/hooks/usePosts.js";
 export default {
   name: "Subreddit",
   components: {
     RedditPost,
   },
+  props: ["slug"],
 
-  setup() {
+  setup(props) {
+    watch(
+      () => props.slug,
+      () => {
+        if (!props.slug) return;
+        SubredditName.value = props.slug;
+      }
+    );
     const postsState = usePosts(SubredditName);
     const posts = computed(() => postsState.data.map((child) => child.data));
 
