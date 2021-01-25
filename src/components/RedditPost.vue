@@ -19,8 +19,29 @@
     <div class="card-title">
       <blockquote>{{ post.title }}</blockquote>
     </div>
-    <div class="card-image" v-if="!post.is_video && isImage(post.url)">
-      <img class="responsive-image" :src="post.url" />
+    <div v-if="post.selftext" class="card-content">
+      <p>{{ post.selftext }}</p>
+    </div>
+    <div class="card-image center" v-if="!post.is_video && isImage(post.url)">
+      <div class="preloader-wrapper small " :class="{ active: !isImageLoaded }">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+      <img
+        @load="isImageLoaded = true"
+        v-show="isImageLoaded"
+        class="responsive-image"
+        :src="post.url"
+      />
     </div>
     <div class="center">
       <video class="responsive-video" controls v-if="post.is_video">
@@ -41,7 +62,7 @@
           target="_blank"
           class="lowercase truncate blue-text text-lighten-2"
           :href="`https://reddit.com${post.permalink}`"
-          >read comments</a
+          >{{ post.num_comments }} comments</a
         >
       </div>
       <div class="card-votes">
@@ -59,6 +80,7 @@
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "RedditPost",
   props: ["post"],
@@ -66,8 +88,10 @@ export default {
     function isImage(url) {
       return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif$/g);
     }
+    const isImageLoaded = ref(false);
     return {
       isImage,
+      isImageLoaded,
     };
   },
 };
@@ -77,6 +101,7 @@ export default {
 .post-card {
   margin: 1rem auto !important;
   max-width: 500px;
+  word-wrap: break-word;
 }
 .lowercase {
   text-transform: none !important;

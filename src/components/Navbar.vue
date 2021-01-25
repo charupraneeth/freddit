@@ -1,4 +1,10 @@
 <template>
+  <div
+    style="display:flex;justify-content:space-between;align-items:center;margin:0 10px"
+  >
+    <a href="/" class="deep-orange-text"><h4>Freddit</h4></a>
+    <i class="material-icons blue-text">info</i>
+  </div>
   <nav class=" deep-orange lighten-2">
     <div class="nav-wrapper">
       <form @submit.prevent="searchSubreddit">
@@ -8,6 +14,7 @@
             ref="autocomplete"
             id="search"
             type="search"
+            autocomplete="off"
             required
           />
           <label class="label-icon search-icon flex" for="search"
@@ -42,9 +49,10 @@ export default {
       router.push({
         name: "SearchSubreddit",
         params: {
-          slug: searchTerm.value,
+          slug: autocomplete.value.value,
         },
       });
+      // console.log(searchTerm.value, );
       instance.close();
     }
 
