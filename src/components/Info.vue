@@ -1,22 +1,54 @@
 <template>
-  <div class="card blue-grey darken-1">
-    <div class="card-content white-text">
-      <span class="card-title">Card Title</span>
-      <p>
-        Freddit - A free subreddit client for reddit
-      </p>
-    </div>
-    <div class="card-action">
-      <a href="#">This is a link</a>
-      <a href="#">This is a link</a>
+  <div class="info-card-container">
+    <div class="card info-card">
+      <div class="close-btn-container right">
+        <i @click="isInfoShown = false" class="material-icons small">close</i>
+      </div>
+      <div class="card-content orange-text">
+        <span class="card-title"><b>Freddit</b></span>
+        <p class="grey-text text-darken-3" style="margin-bottom:15px">
+          A free subreddit client for reddit
+        </p>
+        <p class="grey-text">made with</p>
+        <a href="" class="blue-text" style="margin-right:5px">vue</a>
+        <a href="" class="blue-text">materialize-css</a>
+      </div>
+      <div class="card-action">
+        Made with boredom 🥱 by <a href="https://praneeth.live">Bority</a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import isInfoShown from "@/store/infoState";
 export default {
   name: "Info",
+  setup() {
+    return {
+      isInfoShown,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.info-card-container {
+  z-index: 10;
+  background: rgb(248, 236, 212);
+  position: fixed;
+  top: 0%;
+  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.info-card {
+  margin: 0 auto;
+  max-width: 500px;
+}
+.close-btn-container {
+  margin: 15px;
+  cursor: pointer;
+}
+</style>

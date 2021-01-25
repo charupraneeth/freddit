@@ -3,7 +3,12 @@
     style="display:flex;justify-content:space-between;align-items:center;margin:0 10px"
   >
     <a href="/" class="deep-orange-text"><h4>Freddit</h4></a>
-    <i class="material-icons blue-text">info</i>
+    <i
+      style="cursor:pointer"
+      @click="isInfoShow = true"
+      class="material-icons blue-text"
+      >info</i
+    >
   </div>
   <nav class=" deep-orange lighten-2">
     <div class="nav-wrapper">
@@ -33,6 +38,7 @@
 </template>
 
 <script>
+import isInfoShow from "@/store/infoState";
 import { useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 // import SubredditName from "@/store/state";
@@ -94,6 +100,7 @@ export default {
       autocomplete,
       searchTerm,
       searchSubreddit,
+      isInfoShow,
     };
   },
 };
