@@ -1,6 +1,6 @@
 export default {
-  async getPosts(subreddit) {
-    const url = `https://www.reddit.com/r/${subreddit}.json`;
+  async getPosts(subreddit, after = null) {
+    const url = `https://www.reddit.com/r/${subreddit}.json?after=${after}`;
     const response = await fetch(url, {
       headers: {
         accept: "application/json",

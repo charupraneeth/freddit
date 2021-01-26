@@ -5,6 +5,7 @@ const postState = reactive({
   loading: true,
   error: "",
   data: [],
+  after: null,
 });
 export default function usePosts(subreddit) {
   async function loadData() {
@@ -15,6 +16,7 @@ export default function usePosts(subreddit) {
 
       const response = await API.getPosts(subreddit.value);
       postState.data = response.data.children;
+      postState.after = response.data.after;
     } catch (error) {
       postState.error = error.message || "unable to fetch posts";
       // console.log(error);

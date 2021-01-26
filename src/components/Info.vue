@@ -2,7 +2,9 @@
   <div class="info-card-container">
     <div class="card info-card">
       <div class="close-btn-container right">
-        <i @click="isInfoShown = false" class="material-icons small">close</i>
+        <i @click="isInfoShown = false" class="material-icons small grey-text"
+          >close</i
+        >
       </div>
       <div class="card-content orange-text">
         <span class="card-title"><b>Freddit</b></span>
@@ -10,8 +12,15 @@
           A free subreddit client for reddit
         </p>
         <p class="grey-text">made with</p>
-        <a href="" class="blue-text" style="margin-right:5px">vue</a>
-        <a href="" class="blue-text">materialize-css</a>
+        <a
+          href="https://v3.vuejs.org/"
+          class="blue-text"
+          style="margin-right:5px"
+          >vue</a
+        >
+        <a href="https://materializecss.com/" class="blue-text"
+          >materialize-css</a
+        >
       </div>
       <div class="card-action">
         Made with boredom 🥱 by <a href="https://praneeth.live">Bority</a>
@@ -45,7 +54,7 @@ export default {
 }
 .info-card {
   margin: 0 auto;
-  max-width: 500px;
+  width: 450px;
 }
 .close-btn-container {
   margin: 15px;

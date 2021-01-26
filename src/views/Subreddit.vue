@@ -10,9 +10,20 @@
   <div v-for="post in posts" :key="post.id">
     <RedditPost :post="post" />
   </div>
+  <div class="center">
+    <p
+      class="blue-text"
+      @click="loadMorePosts"
+      style="cursor:pointer"
+      v-if="postsState.after && !postsState.loading"
+    >
+      load more...
+    </p>
+  </div>
 </template>
 
 <script>
+import API from "@/lib/API";
 import SubredditName from "@/store/state";
 import RedditPost from "@/components/RedditPost.vue";
 import { computed, watch } from "vue";
@@ -34,10 +45,20 @@ export default {
     );
     const postsState = usePosts(SubredditName);
     const posts = computed(() => postsState.data.map((child) => child.data));
-
+    // const morePosts = ref([]);
+    async function loadMorePosts() {
+      const morePosts = await API.getPosts(
+        SubredditName.value,
+        postsState.after
+      );
+      postsState.data.push(...morePosts.data.children);
+      postsState.after = morePosts.data.after;
+      // console.log(morePosts.data.children);
+    }
     return {
       postsState,
       posts,
+      loadMorePosts,
     };
   },
 };
