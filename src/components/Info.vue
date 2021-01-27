@@ -1,5 +1,5 @@
 <template>
-  <div class="info-card-container">
+  <div class="info-card-container valign-wrapper">
     <div class="card info-card">
       <div class="close-btn-container right">
         <i @click="isInfoShown = false" class="material-icons small grey-text"
@@ -44,17 +44,19 @@ export default {
 <style scoped>
 .info-card-container {
   z-index: 10;
-  background: rgb(248, 236, 212);
+  background: rgba(255, 255, 255, 0.5);
   position: fixed;
   top: 0%;
   left: 0;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height: 100vh;
+  width: 100vw;
 }
 .info-card {
   margin: 0 auto;
-  width: 450px;
+  width: 250px;
 }
 .close-btn-container {
   margin: 15px;

@@ -10,6 +10,7 @@
       >info</i
     >
   </div>
+  <a id="top"></a>
   <nav class=" deep-orange lighten-2">
     <div class="nav-wrapper">
       <form @submit.prevent="searchSubreddit">
@@ -81,7 +82,7 @@ export default {
         onAutocomplete: () => {
           // SubredditName.value = term;
           searchSubreddit();
-          instance.close();
+          autocomplete.value.blur();
         },
       });
       let debounceTimer;
@@ -92,7 +93,8 @@ export default {
           debounceTimer = setTimeout(async () => {
             getSubreddits();
           }, 100);
-        }
+        },
+        { immediate: true }
       );
     });
 

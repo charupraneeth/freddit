@@ -47,6 +47,7 @@ export default {
     const posts = computed(() => postsState.data.map((child) => child.data));
     // const morePosts = ref([]);
     async function loadMorePosts() {
+      console.log(postsState);
       const morePosts = await API.getPosts(
         SubredditName.value,
         postsState.after
