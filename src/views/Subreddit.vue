@@ -41,7 +41,8 @@ export default {
       () => {
         if (!props.slug) return;
         SubredditName.value = props.slug;
-      }
+      },
+      { immediate: true }
     );
     const postsState = usePosts(SubredditName);
     const posts = computed(() => postsState.data.map((child) => child.data));
