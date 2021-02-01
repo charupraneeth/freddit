@@ -5,6 +5,7 @@ const postState = reactive({
   loading: true,
   error: "",
   data: [],
+  headerData: {},
   after: null,
 });
 export default function usePosts(subreddit) {
@@ -13,8 +14,12 @@ export default function usePosts(subreddit) {
       postState.loading = true;
       postState.error = "";
       postState.data = [];
+      postState.headerData = [];
 
       const response = await API.getPosts(subreddit.value);
+      const headerResponse = await API.getSubredditHeader(subreddit.value);
+
+      postState.headerData = headerResponse ? headerResponse.data : {};
       postState.data = response.data.children;
       postState.after = response.data.after;
     } catch (error) {

@@ -7,6 +7,10 @@
       <span class="card-title">{{ postsState.error }}</span>
     </div>
   </div>
+  <SubredditHeader
+    v-if="postsState.headerData.title"
+    :data="postsState.headerData"
+  />
   <div v-for="post in posts" :key="post.id">
     <RedditPost :post="post" />
   </div>
@@ -15,7 +19,7 @@
       class="blue-text"
       @click="loadMorePosts"
       style="cursor:pointer"
-      v-if="postsState.after && !postsState.loading"
+      v-if="postsState.after && !postsState.loading && !postsState.error"
     >
       load more...
     </p>
@@ -26,12 +30,14 @@
 import API from "@/lib/API";
 import SubredditName from "@/store/state";
 import RedditPost from "@/components/RedditPost.vue";
+import SubredditHeader from "@/components/SubredditHeader.vue";
 import { computed, watch } from "vue";
 import usePosts from "@/hooks/usePosts.js";
 export default {
   name: "Subreddit",
   components: {
     RedditPost,
+    SubredditHeader,
   },
   props: ["slug"],
 
@@ -44,11 +50,11 @@ export default {
       },
       { immediate: true }
     );
+    // const headerData = useHeader(SubredditName)
     const postsState = usePosts(SubredditName);
     const posts = computed(() => postsState.data.map((child) => child.data));
-    // const morePosts = ref([]);
     async function loadMorePosts() {
-      console.log(postsState);
+      // console.log(postsState);
       const morePosts = await API.getPosts(
         SubredditName.value,
         postsState.after
@@ -57,6 +63,7 @@ export default {
       postsState.after = morePosts.data.after;
       // console.log(morePosts.data.children);
     }
+
     return {
       postsState,
       posts,

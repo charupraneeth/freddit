@@ -97,7 +97,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.spinner-layer {
+  border-color: orange !important;
+}
 .post-card {
   margin: 1rem auto !important;
   max-width: 500px;

@@ -53,6 +53,8 @@ export default {
     const router = useRouter();
     let instance;
     function searchSubreddit() {
+      instance.close();
+      autocomplete.value.blur();
       router.push({
         name: "SearchSubreddit",
         params: {
@@ -60,7 +62,6 @@ export default {
         },
       });
       // console.log(searchTerm.value, );
-      instance.close();
     }
 
     onMounted(() => {
@@ -120,4 +121,7 @@ export default {
   display: inline-block;
   margin-left: 3px;
 }
+/* .drop-down-content {
+  display: none;
+} */
 </style>
