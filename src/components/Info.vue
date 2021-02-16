@@ -23,7 +23,7 @@
         >
       </div>
       <div class="card-action">
-        Made with boredom 🥱 by <a href="https://praneeth.live">Bority</a>
+        Made with boredom 🥱 by <a href="/">render</a>
       </div>
     </div>
   </div>
