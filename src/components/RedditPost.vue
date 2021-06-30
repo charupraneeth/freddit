@@ -95,7 +95,7 @@ export default {
   props: ["post"],
   setup() {
     function isImage(url) {
-      return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif$/g);
+      return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif|gifv$/g);
     }
     function setAudio(videoUrl) {
       const left = videoUrl.split("DASH")[0];
