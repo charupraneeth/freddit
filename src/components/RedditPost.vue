@@ -44,8 +44,17 @@
       />
     </div>
     <div class="center">
-      <video class="responsive-video" controls v-if="post.is_video">
+      <video
+        @play="handlePlay"
+        @pause="handlePause"
+        class="responsive-video"
+        controls
+        v-if="post.is_video"
+      >
         <source :src="post.secure_media.reddit_video.fallback_url" />
+        <audio
+          :src="setAudio(post.secure_media.reddit_video.fallback_url)"
+        ></audio>
       </video>
     </div>
 
@@ -88,10 +97,30 @@ export default {
     function isImage(url) {
       return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif$/g);
     }
+    function setAudio(videoUrl) {
+      const left = videoUrl.split("DASH")[0];
+      const right = videoUrl.split("?")[1];
+      const middle = "DASH_audio.mp4";
+      return `${left}${middle}?${right}`;
+    }
+    function handlePlay(event) {
+      const videoElement = event.target;
+      const audioElement = videoElement.querySelector("audio");
+      audioElement.currentTime = videoElement.currentTime;
+      audioElement.play();
+    }
+    function handlePause(event) {
+      const videoElement = event.target;
+      const audioElement = videoElement.querySelector("audio");
+      audioElement.pause();
+    }
     const isImageLoaded = ref(false);
     return {
       isImage,
       isImageLoaded,
+      setAudio,
+      handlePlay,
+      handlePause,
     };
   },
 };
