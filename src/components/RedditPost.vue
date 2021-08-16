@@ -45,14 +45,20 @@
     </div>
     <div class="center">
       <video
-        @play="handlePlay"
-        @pause="handlePause"
+        @play="!isGifv && handlePlay"
+        @pause="!isGifv && handlePause"
         class="responsive-video"
         controls
-        v-if="post.is_video"
+        v-if="post.is_video || isGifv"
       >
-        <source :src="post.secure_media.reddit_video.fallback_url" />
+        <source
+          :src="
+            post?.secure_media?.reddit_video.fallback_url ||
+              post.url.replace('gifv', 'mp4')
+          "
+        />
         <audio
+          v-if="!isGifv"
           :src="setAudio(post.secure_media.reddit_video.fallback_url)"
         ></audio>
       </video>
@@ -89,17 +95,20 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 export default {
   name: "RedditPost",
   props: ["post"],
-  setup() {
+  setup(props) {
     function isImage(url) {
-      return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif|gifv$/g);
+      if (isGifv.value) return false;
+      return url.match(/bmp|jpg|jpeg|png|webp|svg|pjp|apng|avif|gif$/g);
     }
+    const isGifv = computed(() => props.post.url.match(/gifv$/));
     function setAudio(videoUrl) {
       const left = videoUrl.split("DASH")[0];
       const right = videoUrl.split("?")[1];
+      // const middle = "DASH_audio.mp4";
       const middle = "DASH_audio.mp4";
       return `${left}${middle}?${right}`;
     }
@@ -116,6 +125,7 @@ export default {
     }
     const isImageLoaded = ref(false);
     return {
+      isGifv,
       isImage,
       isImageLoaded,
       setAudio,
