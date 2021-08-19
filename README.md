@@ -1,4 +1,6 @@
 # reddit-client
+## Demo
+![image_original](https://user-images.githubusercontent.com/50980044/130057914-90ae8413-adde-4f51-a3bd-885d80a2663e.gif)
 
 ## Project setup
 ```
